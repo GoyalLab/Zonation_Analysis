@@ -1,0 +1,65 @@
+# R specific
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Temporary files
+*~
+.~lock.*#
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Data files (uncomment if you don't want to track data files)
+# *.csv
+*.tsv
+*.txt
+
+# RDS files (uncomment if you don't want to track RDS files)
+# *.rds
+
+# Compiled code
+*.o
+*.so
+
+# Output files
+*.html
+*.pdf
+*.docx
+
+# R Markdown cache
+*_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# RStudio project files
+*.Rproj
+
+# Logs
+*.log
+
+# Sensitive information (uncomment and modify as needed)
+# config.yml
+# secrets.json
+
+# Large files (modify size as needed)
+# *.png
+# *.jpg
+# *.tiff
+# *.bmp
+
+# Specific directories (uncomment and modify as needed)
+# data/
+# output/
+# figures/
+
+
+
