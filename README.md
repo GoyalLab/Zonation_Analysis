@@ -1,5 +1,4 @@
 # Code Repository for Zonation Analysis of Liver Samples (Normal, Alcoholic Cirrhosis [AC], and Alcoholic Hepatitis [AH])
-## Paper name .... 
 Created by AL on 20240716
 
 ## Input files required
