@@ -3,6 +3,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.rds
 
 # Temporary files
 *~
