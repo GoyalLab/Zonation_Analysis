@@ -2,12 +2,6 @@
 #### Created by Aurelia Leona, 2024-07-16
 #### Adapted from [original source if applicable]
 
-library(Seurat)        # For handling single-cell RNA-seq data (Seurat objects)
-library(R.matlab)      # For reading .mat files (readMat function)
-library(dplyr)         # For data manipulation (often used with Seurat)
-library(Matrix) 
-library(tidyverse)
-library(tibble)
 
 # Load required libraries
 required_packages <- c("Seurat", "R.matlab", "dplyr", "Matrix", "tidyverse", "tibble")
@@ -18,6 +12,13 @@ if(length(new_packages)) install.packages(new_packages)
 
 # Load all packages
 lapply(required_packages, library, character.only = TRUE)
+
+library(Seurat)        # For handling single-cell RNA-seq data (Seurat objects)
+library(R.matlab)      # For reading .mat files (readMat function)
+library(dplyr)         # For data manipulation (often used with Seurat)
+library(Matrix) 
+library(tidyverse)
+library(tibble)
 
 ###Prepare Seurat Object for Zonation Analysis---------------------------
 #'

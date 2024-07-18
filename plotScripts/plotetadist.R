@@ -1,6 +1,15 @@
 #### Plotting the Distribution of Eta Across all Cells in Each Condition
 #### Created by Aurelia Leona, 2024-07-16
 #### Adapted from [original source if applicable]
+# Load required libraries
+required_packages <- c("readr","dplyr","ggplot2")
+
+# Install missing packages
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+if(length(new_packages)) install.packages(new_packages)
+
+# Load all packages
+lapply(required_packages, library, character.only = TRUE)
 
 # Load necessary libraries
 library(ggplot2)

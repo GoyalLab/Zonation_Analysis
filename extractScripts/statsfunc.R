@@ -3,7 +3,18 @@
 #### Adapted from [original source if applicable]
 
 # Load required libraries
+required_packages <- c("tidyverse","tibble")
+
+# Install missing packages
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+if(length(new_packages)) install.packages(new_packages)
+
+# Load all packages
+lapply(required_packages, library, character.only = TRUE)
+
+# Load required libraries
 library(tidyverse)
+library(tibble)
 
 #' Perform Wilcoxon Rank Sum Test
 #'
