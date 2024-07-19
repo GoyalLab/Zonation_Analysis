@@ -77,6 +77,6 @@ Input are all the generated datasets from the previous steps, notably combined_e
 Output are .svg and .png files of all the datasets generated above
 ### Instructions:
 1. Modify the directory to match where the .csv files are located (extrDatadir) and where you would like the output subfolders of .csv files to be located (plotDir and extrDatadir). If you have multiple subfolders, specify those as well.
-2. The script will also modified versions of the datasets for plotting. 
+2. The script will also save the modified datasets used for plotting. 
 
 
