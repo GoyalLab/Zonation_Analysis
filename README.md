@@ -85,6 +85,6 @@ Here are a list of plots and their functions
 - ploteucdist.R -> Euclidean Distances between Cells within Zones in PC Space
 - plotheatmapzones.R -> Heatmap of Euclidean Distances between Zones of Each Condition
 - plotZoneDistances.R -> Line Graph of Euclidean Distances between Zones of Each Condition
-- 
+- plotmgezonationgenes.R -> Scatter Plot of Zonation Genes for Normal and SAH Condition
 
 
