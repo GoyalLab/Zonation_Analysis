@@ -27,9 +27,9 @@ library(tibble)
 #' @param condition2 The second condition to compare.
 #'
 #' @return A list containing the test results.
-perform_wilcoxon_test <- function(data, zone, condition1, condition2) {
+wilcoxon_test_condition <- function(data, zone, condition1, condition2) {
   subset_data <- subset(data, Zone == zone & Condition %in% c(condition1, condition2))
-  test_result <- wilcox.test(eucdist ~ Condition, data = subset_data)
+  test_result <- wilcox.test(value ~ Condition, data = subset_data)
   return(test_result)
 }
 
@@ -44,9 +44,49 @@ perform_wilcoxon_test <- function(data, zone, condition1, condition2) {
 #' @param condition2 The second condition to compare.
 #'
 #' @return A list containing the test results.
-perform_t_test <- function(data, zone, condition1, condition2) {
+t_test_condition <- function(data, zone,  condition1, condition2) {
   subset_data <- subset(data, Zone == zone & Condition %in% c(condition1, condition2))
-  test_result <- t.test(eucdist ~ Condition, data = subset_data, 
-                        var.equal = FALSE, alternative = "less")
+  test_result <- t.test(value ~ Condition, data =subset_data, alternative = "two.sided", 
+                        mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95)
   return(test_result)
 }
+
+wilcoxon_test_zones <- function(data, condition, zone1, zone2){
+  subset_data <- subset(data, Condition == condition & Zone %in% c(zone1, zone2))
+  test_result <- wilcox.test(value ~ Zone, data = subset_data)
+  return(test_result)
+}
+
+t_test_zones <- function(data, condition, zone1, zone2) {
+  subset_data <- subset(data, Condition == condition & Zone %in% c(zone1, zone2))
+  test_result <- t.test(value ~ Zone, data = subset_data, alternative = "two.sided", 
+                        mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+  return(test_result)
+}
+
+
+wilcoxon_test_genes <- function(data, condition, zone1, zone2){
+  subset_data <- subset(data, Condition == condition & Zone %in% c(zone1, zone2))
+  test_result <- wilcox.test(value ~ Zone, data = subset_data)
+  return(test_result)
+}
+
+t_test_genes <- function(data, zone, condition, gene1 = "central", gene2 = "portal") {
+  subset_data <- subset(data, Condition == condition & Zone == zone & gene_type %in% c(gene1, gene2))
+  test_result <- t.test(value ~ Zone, data = subset_data, alternative = "two.sided", 
+                        mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+  return(test_result)
+}
+
+
+# Function to extract test results
+extract_test_results <- function(test_list) {
+  map_dfr(names(test_list), ~ tibble(
+    Comparison = .x,
+    P_value = test_list[[.x]]$p.value,
+    Statistic = test_list[[.x]]$statistic,
+    Mean_g1 = test_list[[.x]]$estimate[[1]],
+    Mean_g2 = test_list[[.x]]$estimate[[2]]
+  ))
+}
+

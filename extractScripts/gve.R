@@ -4,12 +4,11 @@
 
 # Initialize directories
 getwd()
-rawfileDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/rawData/"
-plotDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plots/"
-extrdataDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractedData/"
-ascriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/AnalysisScripts/"
-plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plotScripts/"
-extScriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractScripts/"
+rawfileDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/rawData/"
+plotDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plots/"
+extrdataDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractedData/"
+plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plotScripts/"
+extScriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractScripts/"
 
 # Import necessary functions
 source(paste0(extScriptsdir, "gvefunction.R"))  
@@ -17,7 +16,7 @@ source(paste0(extScriptsdir, "etazonefunction.R"))
 
 # Import the combined eta zones data
 etawithzones_directory <- paste0(extrdataDir, "etawithzones_data/")
-etazones <- read_csv(paste0(etawithzones_directory, "combined_etawithzones.csv"))
+etazones <- read_csv(paste0(etawithzones_directory, "plot"))
 
 # Import Seurat objects (assuming they're stored as RDS files)
 seurat_obj_directory <- paste0(extrdataDir, "seurat_objects/")
@@ -29,17 +28,9 @@ list_subset <- list(
 )
 
 #Define new directories 
-mge_directory <- paste0(extrdataDir, "test/mge/")
-pmat_directory <- paste0(extrdataDir, "test/pmat/")
-sorteddata_directory <- paste0(extrdataDir, "test/sorted_data/")
-
-create_dir_if_not_exists(mge_directory)
-create_dir_if_not_exists(pmat_directory)
-create_dir_if_not_exists(sorteddata_directory)
-# 
-# mge_directory <- paste0(extrdataDir, "mge/")
-# pmat_directory <- paste0(extrdataDir, "pmat/")
-# sorteddata_directory <- paste0(extrdataDir, "sorted_data/")
+mge_directory <- paste0(extrdataDir, "mge/")
+pmat_directory <- paste0(extrdataDir, "pmat/")
+sorteddata_directory <- paste0(extrdataDir, "sorted_data/")
 
 #Create directories 
 create_dir_if_not_exists(mge_directory)

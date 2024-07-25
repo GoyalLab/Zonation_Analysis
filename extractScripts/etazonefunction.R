@@ -98,7 +98,7 @@ findeta <- function(hepseurat, ZonationParams) {
   eta <- (x2 - min(x2)) / (max(x2) - min(x2))
   
   print("eta found")
-  return(eta)
+  return(list(X = X, eta = eta))
 }
 
 ### Check Availability of Zonation Marker Genes in Dataset-----------------------
@@ -139,7 +139,16 @@ check_available_genes <- function(hepseurat, ZonationParams) {
   ))
 }
 
-# Function to create directory if it doesn't exist
+#' Create Directory if It Doesn't Exist
+#'
+#' This function creates a directory at the specified path if it doesn't already exist.
+#'
+#' @param dir_path A character string specifying the path of the directory to be created.
+#'
+#' @return No return value. The function creates the directory and prints a message if successful.
+#'
+#' @examples
+#' create_dir_if_not_exists("path/to/new/directory")
 create_dir_if_not_exists <- function(dir_path) {
   if (!dir.exists(dir_path)) {
     dir.create(dir_path, recursive = TRUE)
@@ -147,7 +156,18 @@ create_dir_if_not_exists <- function(dir_path) {
   }
 }
 
-# Function to calculate euclidean distances
+#' Calculate Euclidean Distances
+#'
+#' This function calculates the Euclidean distances between all pairs of columns in a given data matrix.
+#'
+#' @param data A numeric matrix where columns represent different observations or entities.
+#'
+#' @return A symmetric matrix of Euclidean distances between all pairs of columns in the input data.
+#'
+#' @examples
+#' data_matrix <- matrix(rnorm(20), nrow = 5, ncol = 4)
+#' distances <- euc_distances(data_matrix)
+
 euc_distances <- function(data) {
   n <- ncol(data)
   eucdist <- matrix(0, n, n)
@@ -161,3 +181,26 @@ euc_distances <- function(data) {
   return(eucdist)
 }
 
+#' Categorize Gene
+#'
+#' This function categorizes a gene as "central", "portal", or "unknown" based on its presence in predefined lists of central vein and portal node genes.
+#'
+#' @param gene A character string representing the gene name to be categorized.
+#' @param ZonationParams A list containing two elements: "genes.cv" and "genes.pn", each a list of central vein and portal node genes, respectively.
+#'
+#' @return A character string: "central" if the gene is in the central vein list, "portal" if it's in the portal node list, or "unknown" if it's in neither.
+#'
+#' @examples
+#' ZonationParams <- list(
+#'   genes.cv = list(c("GENE1", "GENE2")),
+#'   genes.pn = list(c("GENE3", "GENE4"))
+#' )
+categorize_gene <- function(gene) {
+  if (gene %in% unlist(lapply(ZonationParams[["genes.cv"]], function(x) toupper(x[[1]])))) {
+    return("central")
+  } else if (gene %in% unlist(lapply(ZonationParams[["genes.pn"]], function(x) toupper(x[[1]])))) {
+    return("portal")
+  } else {
+    return("unknown")
+  }
+}
