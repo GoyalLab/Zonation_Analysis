@@ -39,22 +39,8 @@ Output of extracted datasets including a folder of seurat objects with "porto-ce
 ```
 4. Run the etazone.R script. This will subset Seurat object data based on the three conditions and run the seurat normalization pipeline. It will output multiple subfolders to be used later on. 
 
-## Step 2: Statistical Analysis of each Zone in each Condition
-### Scripts used:
-"eucdist.R" "statstest.R" "etazonefunction.R" "statsfunc.R"
-### Directories specified:
-Input folder of .csv file with the marked zones and coordinates (combined_etawithzones.csv) and "seurat_objects" file. 
 
-Output folder containing .csv files of the calculated dataset and reports of the analysis done (stats_tests). 
-
-### Instructions
-1. Open eucdist.R and statstest.R
-2. Modify the directory to match where the combined_etawithzones.csv file  and seurat_objects folder are located (extrDatadir) and where you would like the output subfolders of .csv files to be located (extrDataDir). If you have multiple subfolders, specify those as well.
-3. Execute code cells that will source the function scripts as it will install and load all the packages needed.
-4. Run the eucdist.R before running the statstest.R as outputs from eucdist.R will be inputs for statstest.R.
-
-
-## Step 3: Generate the Normalized Mean Gene Expression Matrix and Sorted Gene Expression based on Variation across Zones 
+## Step 2: Generate the Normalized Mean Gene Expression Matrix and Sorted Gene Expression based on Variation across Zones 
 ### Scripts used:
 “gve.R" "gvefunction.R" "etazonefunction.R" 
 ### Directories specified
@@ -68,7 +54,7 @@ Output directory for holding .csv table of all matrices generated (Pmat, mge, so
 3. There are code cells in the script that will source the function scripts as it will install and load all the packages needed.
 4. Execute the script and it will output folders containing matrices of each condition of gene expression across all three zones and a sorted list of gene expression based on their variation across zones
    
-## Step 4: Plotting Datasets 
+## Step 3: Plotting Datasets 
 ### Scripts used:
 all functions in the plotScripts file and "etafunctions.R"
 ### Directories specified:
@@ -87,4 +73,16 @@ Here are a list of plots and their functions
 - plotZoneDistances.R -> Line Graph of Euclidean Distances between Zones of Each Condition
 - plotmgezonationgenes.R -> Scatter Plot of Zonation Genes for Normal and SAH Condition
 
+## Step 2: Statistical Analysis of each Zone in each Condition
+### Scripts used:
+"eucdist.R" "statstesteucdist.R" "statszonationgene.R" "etazonefunction.R" "statsfunc.R"
+### Directories specified:
+Input folder of .csv file with the marked zones and coordinates (combined_etawithzones.csv) and "seurat_objects" file. 
 
+Output folder containing .csv files of the calculated dataset and reports of the analysis done (stats_tests). 
+
+### Instructions
+1. Open eucdist.R and statstest.R
+2. Modify the directory to match where the combined_etawithzones.csv file  and seurat_objects folder are located (extrDatadir) and where you would like the output subfolders of .csv files to be located (extrDataDir). If you have multiple subfolders, specify those as well.
+3. Execute code cells that will source the function scripts as it will install and load all the packages needed.
+4. Run the eucdist.R before running the statstest.R as outputs from eucdist.R will be inputs for statstest.R.
