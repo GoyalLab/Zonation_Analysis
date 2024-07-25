@@ -16,7 +16,7 @@ Seurat Object as an RDS file and Zonation_params.mat located in rawData file
 ### Directories specified:
 Input folder called rawData of .rds data and Zonation_params.mat
 
-Output of extracted datasets including a folder of seurat objects with "porto-central_coord" as a new metadata, a folder of csv files of the porto-central coordinates (eta_data), a folder of csv files with both the coordinates and assigned zonation (etawithzones_data), and a csv files of all the zonation genes annotated in the dataset and a folder of csv files of zonation ratios (xwithzonesdata). 
+Output of extracted datasets including a folder of seurat objects with "porto-central_coord" as a new metadata, a folder of csv files of the porto-central coordinates and their assigned zones (eta_data and etawithzones_data), a csv file of all the zonation genes annotated in the dataset (ZonationGenesavailable.csv), and a folder of csv files of zonation ratios and their assigned zones (x_data and xwithzones_data). 
 
 ### Instructions
 1. Open etazone.R 
@@ -45,7 +45,7 @@ Output of extracted datasets including a folder of seurat objects with "porto-ce
 ### Directories specified:
 Input folder of .csv file with the marked zones and coordinates (combined_etawithzones.csv) and "seurat_objects" file. 
 
-Output folder containing .csv files of the calculated dataset and reports of the analysis done. 
+Output folder containing .csv files of the calculated dataset and reports of the analysis done (stats_tests). 
 
 ### Instructions
 1. Open eucdist.R and statstest.R
@@ -72,7 +72,7 @@ Output directory for holding .csv table of all matrices generated (Pmat, mge, so
 ### Scripts used:
 all functions in the plotScripts file and "etafunctions.R"
 ### Directories specified:
-Input are all the generated datasets from the previous steps, notably combined_etawithzones.csv, combined_distances.csv, combined_gene_availability.csv, and plot_zones.csv
+Input are all the generated datasets from the previous steps, notably combined_etawithzones.csv, combined_distances.csv, combined_gene_availability.csv, ZonationGenesavailable.csv, plot_zones.csv, and seurat_objects folder. 
 
 Output are .svg and .png files of all the datasets generated above
 ### Instructions:
