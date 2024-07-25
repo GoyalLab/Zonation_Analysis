@@ -16,13 +16,16 @@ library(ggplot2)
 library(dplyr)
 library(readr)
 
+# Set random seed for reproducibility
+set.seed(23)
+
 # Initialize directories
 getwd()
-rawfileDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/rawData/"
-plotDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plots/"
-extrdataDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractedData/"
-plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plotScripts/"
-extScriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractScripts/"
+rawfileDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/rawData/"
+plotDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plots/"
+extrdataDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractedData/"
+plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plotScripts/"
+extScriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractScripts/"
 
 source(paste0(extScriptsdir, "etazonefunction.R"))
 

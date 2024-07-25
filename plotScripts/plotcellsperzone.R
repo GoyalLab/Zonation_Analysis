@@ -20,11 +20,11 @@ library(purrr)
 
 # Initialize directories
 getwd()
-rawfileDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/rawData/"
-plotDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plots/"
-extrdataDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractedData/"
-plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plotScripts/"
-extScriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractScripts/"
+rawfileDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/rawData/"
+plotDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plots/"
+extrdataDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractedData/"
+plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plotScripts/"
+extScriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractScripts/"
 
 source(paste0(extScriptsdir, "etazonefunction.R"))
 
@@ -60,7 +60,7 @@ etazonesplot <- etazones %>%
 write_csv(etazonesplot, paste0(extrdataDir, "cells_perZC.csv"))
 
 # Define color palette
-palette <- c("Zone 1" ="#8d1c06", "Zone 2" = "#e67424", "Zone 3" = "#f5c34d")
+palette <- c("Zone 1" ="#f5c34d", "Zone 2" = "#e67424", "Zone 3" = "#8d1c06")
 
 # Create stacked bar plot
 p <- ggplot(etazonesplot, aes(x = Condition, y = CountNorm, fill = Zone)) +

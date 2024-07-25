@@ -18,11 +18,11 @@ library(tidyr)
 
 # Initialize directories
 getwd()
-rawfileDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/rawData/"
-plotDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plots/"
-extrdataDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractedData/"
-plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plotScripts/"
-extScriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractScripts/"
+rawfileDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/rawData/"
+plotDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plots/"
+extrdataDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractedData/"
+plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plotScripts/"
+extScriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractScripts/"
 
 source(paste0(extScriptsdir, "etazonefunction.R"))
 
@@ -32,7 +32,8 @@ svg_directory <- paste0(plotDir, "svg/")
 png_directory <- paste0(plotDir, "png/")
 
 # Read the plot_zones.csv file
-plot_zones <- read_csv(paste0(extrdataDir, "plot_zones.csv"))
+sorteddata_directory <- paste0(extrdataDir, "sorted_data/")
+plot_zones <- read_csv(paste0(sorteddata_directory, "plot_zones.csv"))
 
 # Calculate summary statistics
 summary_df <- plot_zones %>%
@@ -49,7 +50,7 @@ dfplot <- left_join(plot_zones, summary_df, by = "Condition")
 dfplot$Condition <- factor(dfplot$Condition, levels = c("Normal", "AC", "AH"))
 
 # Define color palette
-palette <- c("#4393C3", "#67001F", "#F4A582","black")
+palette <- c("#F4A582", "#67001F", "#4393C3","black")
 
 # Create the plot
 plot <- ggplot(dfplot, aes(x = Condition)) +

@@ -18,44 +18,28 @@ library(ggplotify)
 
 # Initialize directories
 getwd()
-rawfileDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/rawData/"
-plotDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plots/"
-extrdataDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractedData/"
-ascriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/AnalysisScripts/"
-plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plotScripts/"
-extScriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractScripts/"
+rawfileDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/rawData/"
+plotDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plots/"
+extrdataDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractedData/"
+plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plotScripts/"
+extScriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractScripts/"
+
 
 svg_directory <- paste0(plotDir, "svg/")
 png_directory <- paste0(plotDir, "png/")
+sorteddata_directory <- paste0(extrdataDir, "sorted_data/")
 
 # Import necessary functions
 source(paste0(extScriptsdir, "etazonefunction.R"))  
 
-# Import the combined gene availability file
-combined_gene_availability <- read_csv(paste0(extrdataDir, "combined_gene_availability.csv"))
+# Import the combined Zonation genes available
+genes_to_exclude <- read_csv(paste0(extrdataDir, "ZonationGenesavailable.csv"))
 
-# Convert the combined data to a list format
-gene_availability_list <- split(combined_gene_availability$gene, combined_gene_availability$category)
-
-# Create the genes_to_exclude list
-genes_to_exclude <- c(
-  gene_availability_list[["available_cv"]],
-  gene_availability_list[["available_pn"]]
-)
-
-# Remove duplicates if any
-genes_to_exclude <- unique(genes_to_exclude)
-
-# If you need to save this list for future use
-write_csv(data.frame(gene = genes_to_exclude), 
-          file = paste0(extrdataDir, "genes_to_exclude.csv"))
-
-print(paste("Number of genes to exclude:", length(genes_to_exclude)))
+print(paste("Number of genes to exclude:", length(genes_to_exclude$gene)))
 
 # Import sorted data from CSV files
 conditions <- c("Normal", "AC", "AH")
-# sorteddata_directory <- paste0(extrdataDir, "test/sorted_data/")
-sorteddata_directory <- paste0(extrdataDir, "sorted_data/")
+
 list_sorted_data <- map(conditions, function(condition) {
   read_csv(paste0(sorteddata_directory, condition, "_sorted_data.csv"))
 }) %>% set_names(conditions)
@@ -68,14 +52,14 @@ plot_zones <- data.frame(
 )
 
 diverging_colors <- colorRampPalette(c("#053061", "#2166AC", "#4393C3", "#92C5DE", "#D1E5F0", "#F7F7F7", "#FDDBC7", "#F4A582", "#D6604D", "#B2182B", "#67001F"))(100)
-
+genes_to_exclude <- c(list_genecheck[["Normal"]][["available_cv"]], list_genecheck[["Normal"]][["available_pn"]])
 list_zonedist <- list()
 for (naming in names(list_sorted_data)){
   n <- 3
   high_variance_data <- list_sorted_data[[naming]]
   randall <- high_variance_data %>%
     filter(!gene %in% genes_to_exclude) %>%
-    filter(Variance >= 0.099) %>%
+    filter(Variance >= 0.1) %>%
     arrange(desc(Variance))
   
   rownames(randall) <- randall$gene
@@ -84,7 +68,6 @@ for (naming in names(list_sorted_data)){
   distances <- matrix(NA, n, n)  # Initialize empty matrix for distances
   
   for (i in 1:(n - 1)) {
-    
     for (j in (i + 1):n) {
       print(paste(i, "and", j))
       dist_ij <- sqrt(sum((randall[,i] - randall[,j])^2))  # Calculate Euclidean distance
@@ -96,7 +79,8 @@ for (naming in names(list_sorted_data)){
         Zones = paste0(i, "_", j)))
     }
   }
-  diag(distances)<- sqrt(sum((randall[,i] - randall[,i])^2))
+  
+  diag (distances) <- sqrt(sum((randall[,i] - randall[,i])^2))
   
   result_df <- as.data.frame(distances)
   colnames(result_df) <- c( "Zone 1", "Zone 2", "Zone 3")
@@ -107,9 +91,9 @@ for (naming in names(list_sorted_data)){
     result_df,
     main = title_p,
     color = diverging_colors,
-    breaks = seq(0, 800, length.out = 101),
-    cluster_rows = TRUE,
-    cluster_cols = TRUE,
+    breaks = seq(0, 20, length.out = 101),
+    cluster_rows = FALSE,
+    cluster_cols = FALSE,
     scale = "none",  # Important: we don't want to scale the rows now
     show_rownames = TRUE,  # Set to TRUE if you want to show gene names
     show_colnames = TRUE,
@@ -120,14 +104,17 @@ for (naming in names(list_sorted_data)){
   gg_heatmap <- ggplotify::as.ggplot(hplot$gtable)
   ggsave(gg_heatmap, file = paste0(svg_directory, 'HeatmapZonation_',naming,'.svg'), width = 8, height = 6, dpi = 300)
   ggsave(gg_heatmap, file = paste0(png_directory, 'HeatmapZonation_',naming,'.png'), width = 8, height = 6, dpi = 300)
-
+  
   
   list_zonedist[[naming]] <- result_df
 }
-names(list_zonedist) <- names(list_sorted_data)
+
+snames(list_zonedist) <- names(list_sorted_data)
 
 # Save plot_zones
 write_csv(plot_zones, paste0(sorteddata_directory, "plot_zones.csv"))
 
 print("Processing complete. Results and heatmaps saved.")
+
+
 
