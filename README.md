@@ -77,6 +77,14 @@ Input are all the generated datasets from the previous steps, notably combined_e
 Output are .svg and .png files of all the datasets generated above
 ### Instructions:
 1. Modify the directory to match where the .csv files are located (extrDatadir) and where you would like the output subfolders of .csv files to be located (plotDir and extrDatadir). If you have multiple subfolders, specify those as well.
-2. The script will also save the modified datasets used for plotting. 
+2. The script will also save the modified datasets used for plotting.
+
+Here are a list of plots and their functions
+- plotetadist.R -> Distribution of porto-central coordinates per cell in each condition 
+- plotcellsperzone.R -> Percentage of Cells per Zone Across Conditions
+- ploteucdist.R -> Euclidean Distances between Cells within Zones in PC Space
+- plotheatmapzones.R -> Heatmap of Euclidean Distances between Zones of Each Condition
+- plotZoneDistances.R -> Line Graph of Euclidean Distances between Zones of Each Condition
+- 
 
 
