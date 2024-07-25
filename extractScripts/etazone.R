@@ -33,13 +33,13 @@ create_dir_if_not_exists(xwithzones_directory)
 # Preprocessing
 # Import initial dataset
 LD <- readRDS(file = paste0(rawfileDir, '032722_final.rds'))
+hep <- prepzone(LD, assaytorun = "RNA")
 
 # Import zonation parameters from Shalev paper
 ZonationParams <- readMat(paste0(rawfileDir,"Zonation_params.mat"))
 
 # Subset data to include only hepatocytes
-hepLD <- subset(x = LD, idents = "Hepatocyte")
-
+hepLD <- subset(x = hep, idents = "Hepatocyte")
 
 # Divide dataset into three conditions: Normal, AC, and AH
 hep_normal <- subset(hepLD, subset = Condition == "Normal")
@@ -57,11 +57,8 @@ colnames(cell_id) <- "cell_id"
 # Process each condition
 counter <- 1
 for (cells in names(list_subset)) { 
-  # Normalize the dataset
-  hep <- prepzone(list_subset[[cells]], assaytorun = "RNA")
-  
   # Calculate eta (porto-central coordinate) for each cell
-  result <- findeta(hep, ZonationParams)
+  result <- findeta(list_subset[[cells]], ZonationParams)
   
   # Create dataframe with eta values
   etadf <- as.data.frame(result$eta)
