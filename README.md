@@ -16,7 +16,7 @@ Seurat Object as an RDS file and Zonation_params.mat located in rawData file
 ### Directories specified:
 Input folder called rawData of .rds data and Zonation_params.mat
 
-Output of extracted datasets including a folder of seurat objects with "porto-central_coord" as a new metadata, a folder of csv files of the porto-central coordinates, a csv file with both the coordinates and assigned zonation, and a csv files of all the zonation genes annotated in the dataset. 
+Output of extracted datasets including a folder of seurat objects with "porto-central_coord" as a new metadata, a folder of csv files of the porto-central coordinates (eta_data), a folder of csv files with both the coordinates and assigned zonation (etawithzones_data), and a csv files of all the zonation genes annotated in the dataset and a folder of csv files of zonation ratios (xwithzonesdata). 
 
 ### Instructions
 1. Open etazone.R 
