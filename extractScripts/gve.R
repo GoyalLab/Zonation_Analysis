@@ -16,7 +16,7 @@ source(paste0(extScriptsdir, "etazonefunction.R"))
 
 # Import the combined eta zones data
 etawithzones_directory <- paste0(extrdataDir, "etawithzones_data/")
-etazones <- read_csv(paste0(etawithzones_directory, "plot"))
+etazones <- read_csv(paste0(etawithzones_directory, "combined_etawithzones.csv"))
 
 # Import Seurat objects (assuming they're stored as RDS files)
 seurat_obj_directory <- paste0(extrdataDir, "seurat_objects/")
@@ -85,3 +85,5 @@ for (condition in names(list_subset)) {
 }
 
 print("Processing complete. Results saved as CSV files.")
+
+

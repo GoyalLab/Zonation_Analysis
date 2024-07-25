@@ -7,14 +7,16 @@ library(Seurat)
 library(dplyr)
 library(tidyr)
 
+# Set random seed for reproducibility
+set.seed(23)
+
 # Initialize directories
 getwd()
-rawfileDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/rawData/"
-plotDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plots/"
-extrdataDir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractedData/"
-plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/plotScripts/"
-extScriptsdir <- "/projects/b1042/GoyalLab/aleona/Zonation_Analysis/extractScripts/"
-
+rawfileDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/rawData/"
+plotDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plots/"
+extrdataDir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractedData/"
+plotscriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/plotScripts/"
+extScriptsdir <- "/projects/b1042/GoyalLab/aleona/github_uploads/Zonation_Analysis/extractScripts/"
 
 # Import custom functions for eta calculation
 source(paste0(extScriptsdir, "etazonefunction.R"))
@@ -44,7 +46,7 @@ list_of_zones <- c("Zone 1", "Zone 2", "Zone 3")
 
 # Based on the max number of dataset we want to subset for each condition 
 # In this case, Normal has a max of 28 datapoints 
-num_subsample <- c(14, 50, 50)
+num_subsample <- c(50, 50, 14)
 
 
 # Subsample random cells from each zone in each condition

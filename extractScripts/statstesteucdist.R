@@ -52,7 +52,7 @@ t_test_results <- map_dfr(names(ttest), ~ tibble(
   Mean_g2 = ttest[[.x]]$estimate[[2]]
 ))
 
-write_csv(wilcoxon_results, paste0(stats_directory, "wilcoxon_test_results.csv"))
-write_csv(t_test_results, paste0(stats_directory, "t_test_results.csv"))
+write_csv(wilcoxon_results, paste0(stats_directory, "wilcoxon_test_eucdist.csv"))
+write_csv(t_test_results, paste0(stats_directory, "t_test_eucdist.csv"))
 
 print("Statistical tests completed. Results saved in the extractedData directory.")

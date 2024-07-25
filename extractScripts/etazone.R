@@ -40,8 +40,6 @@ ZonationParams <- readMat(paste0(rawfileDir,"Zonation_params.mat"))
 # Subset data to include only hepatocytes
 hepLD <- subset(x = LD, idents = "Hepatocyte")
 
-# Normalize the dataset
-hepLD <- prepzone(hepLD, assaytorun = "RNA")
 
 # Divide dataset into three conditions: Normal, AC, and AH
 hep_normal <- subset(hepLD, subset = Condition == "Normal")
@@ -59,8 +57,11 @@ colnames(cell_id) <- "cell_id"
 # Process each condition
 counter <- 1
 for (cells in names(list_subset)) { 
+  # Normalize the dataset
+  hep <- prepzone(list_subset[[cells]], assaytorun = "RNA")
+  
   # Calculate eta (porto-central coordinate) for each cell
-  result <- findeta(list_subset[[cells]], ZonationParams)
+  result <- findeta(hep, ZonationParams)
   
   # Create dataframe with eta values
   etadf <- as.data.frame(result$eta)

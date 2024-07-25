@@ -52,26 +52,22 @@ compute_pmat_mge <- function(etazones, n_subsample = 28) {
   }
   
   # Subsampling step
-  set.seed(123)  # For reproducibility
   subsampled_cells <- c()
   total_samples <- n_subsample
   
   for (zone in all_zones) {
+    set.seed(123)  # For reproducibility
     zone_cells <- rownames(zone_matrix)[zone_matrix[, zone] == 1]
     sampled_cells <- sample(zone_cells, n_subsample, replace = FALSE)
     subsampled_cells <- c(subsampled_cells, sampled_cells)
   }
   
-
-
   # Subset the zone_matrix to include only the subsampled cells
   zone_matrix_subsampled <- zone_matrix[subsampled_cells, ]
   
   # Compute pmat
-  # Pmat <- zone_matrix_subsampled / rowSums(zone_matrix_subsampled)
-  # Pmat <- Pmat / colSums(Pmat)
-  Pmat <- zone_matrix_subsampled
-  
+  Pmat <- zone_matrix_subsampled / colSums(zone_matrix_subsampled)
+
   return(list(Pmat = Pmat, subsampled_cells = subsampled_cells))
 }
 
