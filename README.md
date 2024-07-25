@@ -1,6 +1,9 @@
 # Code Repository for Zonation Analysis of Liver Samples (Normal, Alcoholic Cirrhosis [AC], and Alcoholic Hepatitis [AH])
 Created by AL on 20240716
 
+## Disclaimer 
+Please do start the code on a separate environment, in case there are conflicts occuring due to library differences. 
+
 ## Input files required
 Seurat Object as an RDS file and Zonation_params.mat located in rawData file
 
