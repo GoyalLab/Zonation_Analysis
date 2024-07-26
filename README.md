@@ -75,11 +75,12 @@ Here are a list of plots and their functions
 - ploteucdist.R -> Euclidean Distances between Cells within Zones in PC Space
 - plotheatmapzones.R -> Heatmap of Euclidean Distances between Zones of Each Condition
 - plotZoneDistances.R -> Line Graph of Euclidean Distances between Zones of Each Condition
-- plotmgezonationgenes.R -> Scatter Plot of Zonation Genes for Normal and SAH Condition
+- plotmgezonationgenesall.R -> Scatter Plot of Overall Mean Expression of Zonation Genes  for Normal and SAH Condition
+- plotmgezonationgenes_nonzero.R -> Scatter Plot of Non-Zero Mean Expression of Zonation Genes for Normal and SAH Condition
 
 ## Step 4: Statistical Analysis of each Zone in each Condition
 ### Scripts used:
-"statstesteucdist.R" "statszonationgene.R" "etazonefunction.R" "statsfunc.R"
+"statstesteucdist.R" "statszonationgeneall.R" "statszonationgene_nonzero.R" "etazonefunction.R" "statsfunc.R"
 ### Directories specified:
 Input folder of .csv file with the marked zones and coordinates (combined_etawithzones.csv) and "seurat_objects" file. 
 
