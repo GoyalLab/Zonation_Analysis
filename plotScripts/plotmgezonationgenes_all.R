@@ -40,6 +40,7 @@ mge_directory <- paste0(extrdataDir, "mge/")
 svg_directory <- paste0(plotDir, "svg/")
 png_directory <- paste0(plotDir, "png/")
 
+
 # Import Seurat objects (assuming they're stored as RDS files)
 list_subset <- list(
   Normal = readRDS(paste0(seurat_obj_directory, "hepnormalwithpc.rds")),
@@ -55,13 +56,8 @@ genes_to_include <- read_csv(paste0(extrdataDir, "ZonationGenesavailable.csv"))
 mge_list <- list()
 
 for (condition in names(list_subset)) {
-  # Extract etazones for the current condition
+  # Extract ratio for the current condition
   x <- combined_x %>% filter(Condition == condition)
-  
-  # Compute Pmat and get subsampled cells
-  result <- compute_pmat_mge(x)
-  Pmat <- result$Pmat
-  subsampled_cells <- result$subsampled_cells
   
   # Compute MGE
   heps <- list_subset[[condition]]
@@ -80,7 +76,7 @@ for (condition in names(list_subset)) {
   # Calculate means of non-zero values for each column of filtered Z1 
   filterZ1 <- filter(mat_normdf, Zone %in% "Zone 1") 
   nmeandfZ1 <- filterZ1 %>%
-    sapply( function(x) mean(x[x != 0], na.rm = TRUE))%>%
+    sapply( function(x) mean(x, na.rm = TRUE))%>%
     t() %>%
     as.data.frame() %>%
     mutate(
@@ -93,7 +89,7 @@ for (condition in names(list_subset)) {
   # Calculate means of non-zero values for each column of filtered Z2 
   filterZ2 <- filter(mat_normdf, Zone %in% "Zone 2") 
   nmeandfZ2 <- filterZ2 %>%
-    sapply( function(x) mean(x[x != 0], na.rm = TRUE))%>%
+    sapply( function(x) mean(x, na.rm = TRUE))%>%
     t() %>%
     as.data.frame() %>%
     mutate(
@@ -106,7 +102,7 @@ for (condition in names(list_subset)) {
   # Calculate means of non-zero values for each column of filtered Z3 
   filterZ3 <- filter(mat_normdf, Zone %in% "Zone 3")
   nmeandfZ3 <- filterZ3 %>%
-    sapply( function(x) mean(x[x != 0], na.rm = TRUE))%>%
+    sapply( function(x) mean(x, na.rm = TRUE))%>%
     t() %>%
     as.data.frame() %>%
     mutate(
