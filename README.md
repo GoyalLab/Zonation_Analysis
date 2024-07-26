@@ -8,12 +8,12 @@ Please do start the code on a separate environment, in case there are conflicts 
 Seurat Object as an RDS file and Zonation_params.mat located in rawData file
 
 ## Steps Overview
-1. Find the portocentral coordinates and zonation
+1. Find the portocentral coordinates and zonation & euclidean distances between cells in each Zone in each Sample
 3. Generate the Normalized Mean Gene Expression Matrix and Sorted Gene Expression based on Variation across Zones 
 4. Plotting the Datasets
 5. Statistical Analysis of each Zone in each Condition
 
-## Step 1: Find the portocentral coordinates and zonation using etazonefunc, also euclidean distances between cells in each Zone in each Sample
+## Step 1: Find the portocentral coordinates and zonation using etazonefunc & euclidean distances between cells in each Zone in each Sample
 ### Scripts used:
 "etazone.R" "etazonefunction.R" "eucdist.R"
 ### Directories specified:
