@@ -108,7 +108,7 @@ for (naming in names(list_sorted_data)){
   list_zonedist[[naming]] <- result_df
 }
 
-snames(list_zonedist) <- names(list_sorted_data)
+names(list_zonedist) <- names(list_sorted_data)
 
 # Save plot_zones
 write_csv(plot_zones, paste0(sorteddata_directory, "plot_zones.csv"))
