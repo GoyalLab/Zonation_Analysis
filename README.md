@@ -78,7 +78,6 @@ Here are a list of plots and their functions
 - plotheatmapzones.R -> Heatmap of Euclidean Distances between Zones of Each Condition
 - plotZoneDistances.R -> Line Graph of Euclidean Distances between Zones of Each Condition
 - plotmgezonationgenesall.R -> Scatter Plot of Overall Mean Expression of Zonation Genes  for Normal and SAH Condition
-- plotmgezonationgenes_nonzero.R -> Scatter Plot of Non-Zero Mean Expression of Zonation Genes for Normal and SAH Condition
 
 ## Step 4: Statistical Analysis of each Zone in each Condition
 ### Scripts used:
