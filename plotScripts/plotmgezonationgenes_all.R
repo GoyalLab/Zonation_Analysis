@@ -54,7 +54,7 @@ combined_x <- read_csv(paste0(xwithzones_directory, "combined_xwithzones.csv"))
 genes_to_include <- read_csv(paste0(extrdataDir, "ZonationGenesavailable.csv"))
 
 mge_list <- list()
-
+mge_all <- list()
 for (condition in names(list_subset)) {
   # Extract ratio for the current condition
   x <- combined_x %>% filter(Condition == condition)
@@ -73,18 +73,15 @@ for (condition in names(list_subset)) {
     rownames_to_column(var = "cell_id") %>%
     left_join(combined_x, by = "cell_id")
   
-  # Calculate means of non-zero values for each column of filtered Z1 
+  # Calculate means of all values for each column of filtered Z1 
   filterZ1 <- filter(mat_normdf, Zone %in% "Zone 1") 
   nmeandfZ1 <- filterZ1 %>%
     sapply( function(x) mean(x, na.rm = TRUE))%>%
     t() %>%
     as.data.frame() %>%
     mutate(
-      cell_id = "Mean",
       Zone = "Zone 1", 
-      Condition = condition
     )
-  filterZ1 <- rbind(filterZ1, nmeandfZ1)
   
   # Calculate means of non-zero values for each column of filtered Z2 
   filterZ2 <- filter(mat_normdf, Zone %in% "Zone 2") 
@@ -93,11 +90,8 @@ for (condition in names(list_subset)) {
     t() %>%
     as.data.frame() %>%
     mutate(
-      cell_id = "Mean",
       Zone = "Zone 2", 
-      Condition = condition
     )
-  filterZ2 <- rbind(filterZ2, nmeandfZ2)
   
   # Calculate means of non-zero values for each column of filtered Z3 
   filterZ3 <- filter(mat_normdf, Zone %in% "Zone 3")
@@ -106,11 +100,8 @@ for (condition in names(list_subset)) {
     t() %>%
     as.data.frame() %>%
     mutate(
-      cell_id = "Mean",
       Zone = "Zone 3", 
-      Condition = condition
     )
-  filterZ3 <- rbind(filterZ3, nmeandfZ3)
   
   nmeandfZ3 <- subset(nmeandfZ3, select = -c(Condition, cell_id))
   nmeandfZ2 <- subset(nmeandfZ2, select = -c(Condition, cell_id))
@@ -128,12 +119,37 @@ for (condition in names(list_subset)) {
       Condition = condition
     )
   
+  #Calculate overall mean with zeros 
+  mge <- mat_normdf%>%
+    sapply( function(x) mean(x, na.rm = TRUE))%>%
+    t() %>%
+    as.data.frame() %>%
+    mutate(
+      cell_id = "Mean",
+      Condition = condition
+    )
+  
+  mge <- subset(mge, select = -c(Zone, Condition, cell_id))
+  mge_datadf<- mge%>%
+    subset(select = -c(x))%>%
+    t()%>%
+    as.data.frame()%>%
+    rename(Expression = 1)%>%
+    rownames_to_column( var = "gene") %>%
+    left_join(genes_to_include, by = "gene") %>%
+    mutate(
+      gene_type = factor(gene_type, levels = c("central", "portal")),
+      Condition = condition
+    )
+
   # Save results as CSV
   write_csv(mean_datadf, paste0(mge_directory, condition, "_MGEZ123.csv"))
+  write_csv(mge_datadf, paste0(mge_directory, condition, "_MGEall.csv"))
   
   print(paste("Processed and saved data for", condition))
 
   mge_list[[condition]]  <- mean_datadf
+  mge_all[[condition]] <- mge_datadf
 }
 
 
@@ -181,6 +197,9 @@ for (condition in names(list_subset)) {
 # })
 
 
+
+
+## Preparation for Plotting ----------------
 # Define colors for central, portal, and mean
 palette <- c("Normal" = "#224b5e", "AH" = "#edc775", "Mean" = "black")
 
@@ -206,17 +225,18 @@ mean_data <- long_df %>%
     SD_Expression = sd(Expression, na.rm = TRUE),
     .groups = 'drop'
   )
-
+  
 mean_data$Condition <- factor(mean_data$Condition, levels = c("Normal", "AH")) 
 mean_data$gene_type <- factor(mean_data$gene_type, levels = c("central", "portal")) 
 mean_data$Zone <- factor(mean_data$Zone, levels = c("Zone 1", "Zone 2","Zone 3")) 
 
 line_data <- long_df %>%
-  filter(!is.na(Expression)) %>%
+  filter(!is.na(Expression) & Expression != 0) %>%
   group_by(Zone, gene, gene_type) %>%
   filter(n() == 2 & n_distinct(Condition) == 2)  # Keep only genes that appear in both conditions
 
 
+#Plot per Zones ------------------------------
 #Separate the dataset into only central genes
 central_long <- filter(long_df, gene_type == "central")
 central_mean <- filter(mean_data, gene_type == "central")
@@ -267,14 +287,14 @@ plot3 <- ggplot() +
 print(plot3)
 
 # Save as PNG
-ggsave(filename = paste0(png_directory, "CentralMGENormalAH.png"),
+ggsave(filename = paste0(png_directory, "CentralMGENormalAHZones.png"),
        plot = plot3,
        width = 8,
        height = 6,
        dpi = 300)
 
 # Save as SVG
-ggsave(filename = paste0(svg_directory, "CentralMGENormalAH.svg"),
+ggsave(filename = paste0(svg_directory, "CentralMGENormalAHZones.svg"),
        plot = plot3,
        width = 8,
        height = 6,
@@ -333,15 +353,165 @@ print(plot4)
 
 
 # Save as PNG
-ggsave(filename = paste0(png_directory, "PortalMGENormalAH.png"),
+ggsave(filename = paste0(png_directory, "PortalMGENormalAHZones.png"),
        plot = plot4,
        width = 8,
        height = 6,
        dpi = 300)
 
 # Save as SVG
-ggsave(filename = paste0(svg_directory, "PortalMGENormalAH.svg"),
+ggsave(filename = paste0(svg_directory, "PortalMGENormalAHZones.svg"),
        plot = plot4,
+       width = 8,
+       height = 6,
+       dpi = 300)
+
+
+
+
+
+
+##Combined dataset ------------------
+##Prepare dataset for combined dataset 
+
+# Combine the list of dataframes into one
+combineddataset_all <- bind_rows(mge_all)%>%
+  mutate(Condition = factor(Condition, levels = c("Normal", "AH")))
+
+# Determine the overall range of Expression values
+y_min <- min(combineddataset_all$Expression, na.rm = TRUE)
+y_max <- max(combineddataset_all$Expression, na.rm = TRUE)
+
+#Calculate overall mean 
+# Calculate means and standard deviations
+mean_overall <- combineddataset_all %>%
+  group_by(gene_type, Condition) %>%
+  summarise(
+    Mean_Expression = mean(Expression, na.rm = TRUE),
+    SD_Expression = sd(Expression, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+mean_overall$Condition <- factor(mean_overall$Condition, levels = c("Normal", "AH")) 
+mean_overall$gene_type <- factor(mean_overall$gene_type, levels = c("central", "portal")) 
+
+#Finding the genes expressed 
+line_data2 <- combineddataset_all %>%
+  filter(!is.na(Expression) & Expression != 0) %>%
+  group_by(gene, gene_type) %>%
+  filter(n() == 2 & n_distinct(Condition) == 2)  # Keep only genes that appear in both conditions
+
+#Separate the dataset into only central genes
+central_long2 <- filter(combineddataset_all, gene_type == "central")
+overall_central <- filter(mean_overall, gene_type == "central")
+central_gene_name2<- filter(line_data2, gene_type == "central")
+
+plot5 <- ggplot() +
+  # Individual data points
+  geom_point(data = central_long2, aes(x = Condition, y = Expression, color = Condition), position = position_dodge(width = 1.0),
+             size = 2.5, alpha = 0.7) +
+  # Mean points without error bars (black)
+  geom_point(data = overall_central, aes(x = Condition, y = Mean_Expression, group = Condition),
+             position = position_dodge(width = 1.0), color = "black", size = 2.5) +
+  #Line between the same Gene
+  geom_line(data = central_long2, aes(x=Condition, y= Expression, group= interaction(gene)),
+            color = "antiquewhite3", size = 0.3) +
+  
+  #Line between the same Mean
+  geom_line(data = overall_central, aes(x=Condition, y= Mean_Expression, group = gene_type),
+            color = "black", size = 0.9, linetype = "dashed" ) +
+  
+  # Gene labels
+  geom_text_repel(data = central_gene_name2 %>% filter(Condition == "Normal"),
+                  aes(x = Condition, y = Expression, label = gene),
+                  position = position_dodge(width = 0.8),
+                  size = 2.5, 
+                  box.padding = unit(0.2, "lines"),
+                  point.padding = unit(0.2, "lines"),
+                  max.overlaps = 20) +
+  
+  scale_color_manual(values = palette,
+                     name = "Condition") +
+  scale_fill_manual(values = palette,
+                    name = "Condition") +
+  theme_classic() +
+  labs(title = "Gene Expression of Central Genes for Normal and AH",
+       x = "Condition",
+       y = "Gene Expression") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "right")
+
+print(plot5)
+
+# Save as PNG
+ggsave(filename = paste0(png_directory, "CentralMGENormalAH.png"),
+       plot = plot5,
+       width = 8,
+       height = 6,
+       dpi = 300)
+
+# Save as SVG
+ggsave(filename = paste0(svg_directory, "CentralMGENormalAH.svg"),
+       plot = plot5,
+       width = 8,
+       height = 6,
+       dpi = 300)
+
+
+
+#Plot Portal for all 
+#Separate the dataset into only portal genes
+portal_long2 <- filter(combineddataset_all, gene_type == "portal")
+overall_portal <- filter(mean_overall, gene_type == "portal")
+portal_gene_name2<- filter(line_data2, gene_type == "portal")
+
+plot6 <- ggplot() +
+  # Individual data points
+  geom_point(data = portal_long2, aes(x = Condition, y = Expression, color = Condition), position = position_dodge(width = 1.0),
+             size = 2.5, alpha = 0.7) +
+  # Mean points with error bars (black)
+  geom_point(data = overall_portal, aes(x = Condition, y = Mean_Expression, group = Condition),
+              position = position_dodge(width = 1.0), color = "black", size = 2.5) +
+  #Line between the same Gene
+  geom_line(data = portal_long2, aes(x=Condition, y= Expression, group= interaction(gene)),
+            color = "antiquewhite3", size = 0.3) +
+  
+  #Line between Means
+  geom_line(data = overall_portal, aes(x=Condition, y= Mean_Expression, group = gene_type),
+            color = "black", size = 0.9, linetype = "dashed" ) +
+  # Gene labels
+  geom_text_repel(data = portal_gene_name2 %>% filter(Condition == "Normal"),
+                  aes(x = Condition, y = Expression, label = gene),
+                  position = position_dodge(width = 0.8),
+                  size = 2.5, 
+                  box.padding = unit(0.2, "lines"),
+                  point.padding = unit(0.2, "lines"),
+                  max.overlaps = 20) +
+  
+  scale_color_manual(values = palette,
+                     name = "Condition") +
+  scale_fill_manual(values = palette,
+                    name = "Condition") +
+  theme_classic() +
+  labs(title = "Gene Expression of Portal Genes for Normal and AH",
+       x = "Condition",
+       y = "Gene Expression") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "right")
+
+print(plot6)
+
+
+# Save as PNG
+ggsave(filename = paste0(png_directory, "PortalMGENormalAH.png"),
+       plot = plot6,
+       width = 8,
+       height = 6,
+       dpi = 300)
+
+# Save as SVG
+ggsave(filename = paste0(svg_directory, "PortalMGENormalAH.svg"),
+       plot = plot6,
        width = 8,
        height = 6,
        dpi = 300)
