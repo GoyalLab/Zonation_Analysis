@@ -1,7 +1,16 @@
 # Code Repository for Zonation Analysis of Liver Samples (Normal, Alcoholic Cirrhosis [AC], and Alcoholic Hepatitis [AH])
-Created by AL on 20240716
+Created by AL on 20240716 and Last edited on 20240820
 
 Inspired by Halpern, K., Shenhav, R., Massalha, H. et al. Paired-cell sequencing enables spatial gene expression mapping of liver endothelial cells. Nat Biotechnol 36, 962–970 (2018). (https://doi.org/10.1038/nbt.4231)
+
+## Installation and Dependencies
+1. Download R  using the link: https://cran.r-project.org/doc/manuals/r-patched/R-admin.html
+2. Scripts in this repository has been implemented in R version 4.2.3 and can be installed using
+```
+    $> module load git
+    $> git clone https://github.com/GoyalLab/Zonation_Analysis.git
+```
+3. Wishbone depends on a number of `R` packages available on CRAN and Bioconductor and these dependencies are listed in each of the function scripts as shown in the steps below.  All the dependencies will be automatically installed when running the steps below. 
 
 ## Disclaimer 
 Please do start the code on a separate environment, in case there are conflicts occuring due to library differences. 
