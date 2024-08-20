@@ -10,7 +10,8 @@ Inspired by Halpern, K., Shenhav, R., Massalha, H. et al. Paired-cell sequencing
     $> module load git
     $> git clone https://github.com/GoyalLab/Zonation_Analysis.git
 ```
-3. Wishbone depends on a number of `R` packages available on CRAN and Bioconductor and these dependencies are listed in each of the function scripts as shown in the steps below.  All the dependencies will be automatically installed when running the steps below. 
+3. Wishbone depends on a number of `R` packages available on CRAN and Bioconductor and these dependencies are listed in each of the function scripts as shown in the steps below.  All the dependencies will be automatically installed when running the steps below.
+4. The runtime to download this github repository is less than 1 hour. The runtime to run all the scripts in the repository is around 1 hour.
 
 ## Disclaimer 
 Please do start the code on a separate environment, in case there are conflicts occuring due to library differences. 
@@ -35,7 +36,7 @@ Output of extracted datasets including a folder of seurat objects with "porto-ce
 ### Instructions
 1. Open etazone.R and eucdist.R
 2. Modify the path to the directory that contains both the main and functions (extScripts).
-3. Modify the directory to match where the .rds files are located and get the Zonation_params.mat from the rawData file (rawfiledir) and where you would like the output subfolders of .csv and .rds files to be located (extrDataDir). If you have multiple subfolders, specify those as well. For example:
+3. Modify the directory to match where the .rds files are located and get the Zonation_params.mat from the rawData file (rawfiledir) and where you would like the output subfolders of .csv and .rds files to be located (extrDataDir). This repository includes a sample of the .rds file used. If you have multiple subfolders, specify those as well. For example:
 
 ```
       #Rename the .rds dataset
