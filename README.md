@@ -38,7 +38,7 @@ Output of extracted datasets including a folder of seurat objects with "porto-ce
 2. Modify the path to the directory that contains both the main and functions (extScripts).
 3. Modify the input directory path to match the location of your .rds files. Ensure that the 'Zonation_params.mat' file is located in the raw data directory (rawfiledir).
 4. Specify the output directory (extrDataDir) where you want the generated .csv and .rds files to be saved. If you have multiple subfolders for output, make sure to specify those as well. For testing or as an example, you can use this [sample dataset](https://drive.google.com/drive/folders/1TEzlIAO7JGU2BAvdV0upSl1hMuyH05BR?usp=drive_link) as input for this step. If you have a more complex directory structure, adjust the paths in the script accordingly to match your specific setup. For instance, you might have separate folders for raw data, .rds files, and different types of output files.
-
+```
 rawData/
 ├── Zonation_params.mat
 ├── sample_data.rds
@@ -54,6 +54,8 @@ extData/
 ├── xwithzones_data
 │   └── xwithzones_data.csv
 ├── ZonationGenesavailable.csv
+```
+
 ```
       rawfileDir <- "/path/to/rawData"
       extrdataDir <- "/path/to/extData
