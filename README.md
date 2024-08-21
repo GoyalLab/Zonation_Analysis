@@ -41,6 +41,7 @@ Output of extracted datasets including a folder of seurat objects with "porto-ce
 ```
 rawData/
 ├── Zonation_params.mat
+inputdata/
 ├── sample_data.rds
 extData/
 ├── seurat_objects
@@ -58,10 +59,11 @@ extData/
 
 ```
       rawfileDir <- "/path/to/rawData"
-      extrdataDir <- "/path/to/extData
+      extrdataDir <- "/path/to/extData"
+      input <- "/path/to/rds"
       
       #Rename the .rds dataset
-      LD <- readRDS(file = paste0(rawfileDir, '032722_final.rds'))
+      LD <- readRDS(file = paste0(input, '032722_final.rds'))
       
       #Define new directories 
       eta_directory <- paste0(extrdataDir, "eta_data/")
