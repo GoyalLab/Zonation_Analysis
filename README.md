@@ -36,9 +36,28 @@ Output of extracted datasets including a folder of seurat objects with "porto-ce
 ### Instructions
 1. Open etazone.R and eucdist.R
 2. Modify the path to the directory that contains both the main and functions (extScripts).
-3. Modify the directory to match where the .rds files are located and get the Zonation_params.mat from the rawData file (rawfiledir) and where you would like the output subfolders of .csv and .rds files to be located (extrDataDir). This repository includes a sample of the .rds file used. If you have multiple subfolders, specify those as well. For example:
+3. Modify the input directory path to match the location of your .rds files. Ensure that the 'Zonation_params.mat' file is located in the raw data directory (rawfiledir).
+4. Specify the output directory (extrDataDir) where you want the generated .csv and .rds files to be saved. If you have multiple subfolders for output, make sure to specify those as well. For testing or as an example, you can use this [sample dataset](https://drive.google.com/drive/folders/1TEzlIAO7JGU2BAvdV0upSl1hMuyH05BR?usp=drive_link) as input for this step. If you have a more complex directory structure, adjust the paths in the script accordingly to match your specific setup. For instance, you might have separate folders for raw data, .rds files, and different types of output files.
 
+rawData/
+├── Zonation_params.mat
+├── sample_data.rds
+extData/
+├── seurat_objects
+│   └── seurat_with_coordinate.rds
+├── eta_data
+│   └── eta_data.csv
+├── etawithzones_data
+│   └── etawithzones_data.csv
+├── x_data
+│   └── x_data.csv
+├── xwithzones_data
+│   └── xwithzones_data.csv
+├── ZonationGenesavailable.csv
 ```
+      rawfileDir <- "/path/to/rawData"
+      extrdataDir <- "/path/to/extData
+      
       #Rename the .rds dataset
       LD <- readRDS(file = paste0(rawfileDir, '032722_final.rds'))
       
