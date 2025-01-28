@@ -120,7 +120,7 @@ print("--------------------------------")
 print(ks_results)
 
 #Save the resulst 
-write.csv(paste0(etazones_directory, ks_results), "bootstrap_iterations70.csv", row.names = FALSE)
+write.csv(ks_results, paste0(etazones_directory, "KSanalysis.csv"), row.names = FALSE)
 
 # 
 # # Add statistical annotation to the plot
@@ -140,7 +140,7 @@ write.csv(paste0(etazones_directory, ks_results), "bootstrap_iterations70.csv", 
 #        plot = p_with_stats, width = 8, height = 6, dpi = 300)
 
 ## Compare different sample sizes on a quantile quantile plot ---------------------------------
-create_qq_plot <- function(data1, data2, label1, label2) {
+create_qq_plot <- function(data1, data2, label1, label2, output_dir = bootstrapdir) {
   # Get the quantiles for both datasets
   n_points <- min(length(data1), length(data2))  # Use the smaller sample size
   probs <- seq(0, 1, length.out = n_points)
@@ -152,8 +152,35 @@ create_qq_plot <- function(data1, data2, label1, label2) {
   # Create data frame for plotting
   df <- data.frame(
     theoretical = quantiles1,
-    sample = quantiles2
+    sample = quantiles2,
+    probability = probs
   )
+  
+  # Create descriptive names for the files
+  comparison_name <- paste0(label1, "_vs_", label2)
+  comparison_name <- gsub(" ", "_", comparison_name)  # Replace spaces with underscores
+  
+  # Save the quantile data
+  write.csv(df, 
+            file = file.path(etazones_directory, paste0("qq_data_", comparison_name, ".csv")),
+            row.names = FALSE)
+  
+  # Save summary statistics
+  summary_stats <- data.frame(
+    Comparison = comparison_name,
+    Label1 = label1,
+    Label2 = label2,
+    n1 = length(data1),
+    n2 = length(data2),
+    mean1 = mean(data1),
+    mean2 = mean(data2),
+    sd1 = sd(data1),
+    sd2 = sd(data2)
+  )
+  
+  write.csv(summary_stats,
+            file = file.path(etazones_directory, paste0("qq_stats_", comparison_name, ".csv")),
+            row.names = FALSE)
   
   # Create the plot
   ggplot(df, aes(x = theoretical, y = sample)) +
