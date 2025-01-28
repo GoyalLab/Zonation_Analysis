@@ -105,8 +105,10 @@ Output are .svg and .png files of all the datasets generated above
 2. The script will also save the modified datasets used for plotting.
 
 Here are a list of plots and their functions
-- plotetadist.R -> Distribution of porto-central coordinates per cell in each condition 
-- plotcellsperzone.R -> Percentage of Cells per Zone Across Conditions
+- plotetadist.R -> Distribution of porto-central coordinates per cell in each condition,
+    - p-value obtained from K-S test on the distribution comparing conditions to Normal.
+    - Q-Q plot comparing conditions to Normal and Normal-Half 1 to Normal-Half 1 as control. 
+- plotcellsperzone.R -> Percentage of Cells per Zone Across Conditions, use statsbootstrapcellsperzone.R below for statistical analysis on this data
 - ploteucdist.R -> Euclidean Distances between Cells within Zones in PC Space
 - plotheatmapzones.R -> Heatmap of Euclidean Distances between Zones of Each Condition
 - plotZoneDistances.R -> Line Graph of Euclidean Distances between Zones of Each Condition
@@ -114,14 +116,14 @@ Here are a list of plots and their functions
 
 ## Step 4: Statistical Analysis of each Zone in each Condition
 ### Scripts used:
-"statstesteucdist.R" "statszonationgeneall.R" "statszonationgene_nonzero.R" "etazonefunction.R" "statsfunc.R"
+"statstesteucdist.R" "statszonationgeneall.R" "statszonationgene_nonzero.R" "etazonefunction.R" "statsfunc.R" "statsbootstrapcellsperzone.R"
 ### Directories specified:
 Input folder of .csv file with the marked zones and coordinates (combined_etawithzones.csv) and "seurat_objects" file. 
 
-Output folder containing .csv files of the calculated dataset and reports of the analysis done (stats_tests). 
+Output folder containing .csv files of the calculated dataset, plots and reports of the analysis done (stats_tests). 
 
 ### Instructions
-1. Open statstesteucdist.R, statszonationgene.R and statsfunc.R
+1. Open statstesteucdist.R, statszonationgene.R, statsbootstrapcellsperzone.R and statsfunc.R
 2. Modify the directory to match where the combined_etawithzones.csv file  and seurat_objects folder are located (extrDatadir) and where you would like the output subfolders of .csv files to be located (extrDataDir). If you have multiple subfolders, specify those as well.
 3. Execute code cells that will source the function scripts as it will install and load all the packages needed.
 4. Run the eucdist.R before running the statstest.R as outputs from eucdist.R will be inputs for statstest.R.
